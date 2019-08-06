@@ -7,11 +7,7 @@ let code = document.querySelector('.code')
 binary.onclick = () => {
   let codearr = code.value.split("")
   let code_to_use = codearr.map(e=>parseInt(e))
-  let converted = new Array()
-  converted.push(code_to_use[0])
-  for(let i=1; i<code_to_use.length; i++){
-    converted.push(xor([code_to_use[i-1], code_to_use[i]]))
-  }
+  let converted = gtob(code_to_use)
   let html = converted.map(e=>`<span>${e}</span>`).join("")
   output.innerHTML = `<br>Grey code: ${code.value} => Biary Code: ${html}`
   console.log(converted)
@@ -21,18 +17,29 @@ binary.onclick = () => {
 grey.onclick = () => {
   let codearr = code.value.split("")
   let code_to_use = codearr.map(e => parseInt(e))
-  let converted = new Array()
-  converted.push(code_to_use[0])
-  for(let i=1; i<code_to_use.length; i++){
-    let o = xor([converted[i-1], code_to_use[i]])
-    converted.push(o)
-  }
+  let converted = btog(code_to_use)
   let html = converted.map(e => `<span>${e}</span>`).join("")
-  output.innerHTML = html
+  output.innerHTML = `<br>Binary code: ${code.value} => Grey Code: ${html}`
   console.log(converted)
 }
 
-
+function btog(arr){
+  let converted = new Array()
+  converted.push(arr[0])
+  for (let i = 1; i < arr.length; i++) {
+    converted.push(xor([arr[i - 1], arr[i]]))
+  }
+  return converted
+}
+function gtob(arr){
+  let converted = new Array()
+  converted.push(arr[0])
+  for (let i = 1; i < arr.length; i++) {
+    let o = xor([converted[i - 1], arr[i]])
+    converted.push(o)
+  }
+  return converted
+}
 
 function xor(arr){
   let sum = 0
